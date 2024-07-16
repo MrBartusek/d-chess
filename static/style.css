@@ -1,0 +1,24 @@
+body {
+    background-color: #ccc;
+}
+
+#board {
+    margin: 100px auto;
+    width: 560px;
+    border: solid black 4px;
+    box-shadow: 4px 4px 12px 0px rgba(66, 68, 90, 1);
+}
+
+.row {
+    display: flex;
+}
+
+.tile {
+    width: 70px;
+    height: 70px;
+    background-color: #b58863;
+}
+
+.tile-variant {
+    background-color: #f0d9b5;
+}
