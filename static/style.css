@@ -1,5 +1,6 @@
 body {
     background-color: #ccc;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 #board {
@@ -14,11 +15,29 @@ body {
 }
 
 .tile {
+    position: relative;
     width: 70px;
     height: 70px;
     background-color: #b58863;
+    color: #f0d9b5;
 }
 
 .tile-variant {
     background-color: #f0d9b5;
+    color: #b58863;
+}
+
+.notation {
+    position: absolute;
+    font-size: 16px;
+}
+
+.notation-top {
+    top: 4px;
+    left: 4px;
+}
+
+.notation-bot {
+    bottom: 4px;
+    right: 4px;
 }
