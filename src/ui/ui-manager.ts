@@ -18,8 +18,8 @@ export class UIManager {
 			const currentPiece = this.getPieceElement(tile);
 
 			if (currentPiece && realPiece) {
-				const isPieceDifferent = currentPiece.classList.contains(realPiece.getType());
-				if (!isPieceDifferent) continue;
+				const isRightPiece = currentPiece.classList.contains(realPiece.getType());
+				if (isRightPiece) continue;
 				currentPiece.remove();
 			}
 
