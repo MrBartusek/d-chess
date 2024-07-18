@@ -1,3 +1,5 @@
+import { Board } from '../board';
+
 enum NotationPosition {
 	TOP = 'notation-top',
 	BOTTOM = 'notation-bot',
@@ -9,6 +11,28 @@ export class UIManager {
 		this.generateBoard(container);
 	}
 
+	public drawBoard(board: Board) {
+		for (let i = 0; i < 64; i++) {
+			const realPiece = board.getByIndex(i);
+			const tile = document.getElementById(`tile-${i}`)! as HTMLDivElement;
+			const currentPiece = this.getPieceElement(tile);
+
+			if (currentPiece && realPiece) {
+				const isPieceDifferent = currentPiece.classList.contains(realPiece.getType());
+				if (!isPieceDifferent) continue;
+				currentPiece.remove();
+			}
+
+			if (currentPiece && !realPiece) {
+				currentPiece.remove();
+			} else if (realPiece) {
+				const image = `static/img/pieces/${realPiece.getImage()}`;
+				const pieceElement = this.createPiece(image, realPiece.getType());
+				tile.appendChild(pieceElement);
+			}
+		}
+	}
+
 	private generateBoard(container: HTMLElement) {
 		for (let x = 0; x < 8; x++) {
 			const row = this.createRow(x);
@@ -18,12 +42,6 @@ export class UIManager {
 				const tile = this.createTile(x, y);
 				row.appendChild(tile);
 
-				if (x == 1 || x == 6) {
-					const figure = document.createElement('img');
-					figure.src = 'static/img/pieces/wP.png';
-					figure.classList.add('figure');
-					tile.appendChild(figure);
-				}
 				if (y == 0) {
 					const notation = this.createNotation(`${x + 1}`, NotationPosition.TOP);
 					tile.appendChild(notation);
@@ -62,5 +80,20 @@ export class UIManager {
 		notation.classList.add('notation', position);
 		notation.textContent = text;
 		return notation;
+	}
+
+	private createPiece(image: string, name: string): HTMLDivElement {
+		const piece = document.createElement('img');
+		piece.classList.add('piece', name);
+		piece.src = image;
+		return piece;
+	}
+
+	private getPieceElement(tile: HTMLDivElement): HTMLDivElement | null {
+		const children = tile.getElementsByClassName('piece');
+		if (children.length > 0) {
+			return children[0] as HTMLDivElement;
+		}
+		return null;
 	}
 }

@@ -16,9 +16,13 @@ export class Game {
 		const ROW_OFFSET = 8;
 		for (let i = 0; i < 8; i++) {
 			newBoard[1 * ROW_OFFSET + i] = new Pawn(Color.WHITE);
-			newBoard[5 * ROW_OFFSET + i] = new Pawn(Color.WHITE);
+			newBoard[6 * ROW_OFFSET + i] = new Pawn(Color.WHITE);
 		}
 
 		this.board.setAll(newBoard);
+	}
+
+	public getBoard() {
+		return this.board;
 	}
 }
