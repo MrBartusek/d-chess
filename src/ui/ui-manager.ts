@@ -34,6 +34,7 @@ export class UIManager {
 
 	private onStartDragging(event: MouseEvent) {
 		this.currentDraggedPiece = event.target as HTMLImageElement;
+		this.currentDraggedPiece.classList.add('dragged');
 
 		this.dragStartX = event.clientX;
 		this.dragStartY = event.clientY;
@@ -58,6 +59,7 @@ export class UIManager {
 		if (this.currentDraggedPiece) {
 			const currentTileId = Number(this.currentDraggedPiece.parentElement!.id.replace('tile-', ''));
 			this.currentDraggedPiece.style.transform = '';
+			this.currentDraggedPiece.classList.remove('dragged');
 			this.currentDraggedPiece = null;
 
 			const targetElement = this.getTileFromPoint(event.clientX, event.clientY);
