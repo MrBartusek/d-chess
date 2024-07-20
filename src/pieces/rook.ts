@@ -7,11 +7,11 @@ export class Rook extends Piece {
 		super(color);
 	}
 
-	getType() {
+	get type() {
 		return PieceType.ROOK;
 	}
 
-	getImage(): string {
+	get image(): string {
 		return `${this.color}Rook.png`;
 	}
 }

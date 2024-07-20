@@ -7,11 +7,11 @@ export class Bishop extends Piece {
 		super(color);
 	}
 
-	getType() {
+	get type() {
 		return PieceType.BISHOP;
 	}
 
-	getImage(): string {
+	get image(): string {
 		return `${this.color}Bishop.png`;
 	}
 }

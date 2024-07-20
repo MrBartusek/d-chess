@@ -1,13 +1,13 @@
 import { Game } from './game';
 import { UIManager } from './ui/ui-manager';
 
-const manager = new UIManager();
+const uiManager = new UIManager();
 const game = new Game();
 
 function start() {
-	manager.start();
+	uiManager.start();
 	game.setDefaultBoard();
-	manager.drawBoard(game.getBoard());
+	uiManager.drawBoard(game.getBoard());
 }
 
 document.addEventListener('DOMContentLoaded', () => start());

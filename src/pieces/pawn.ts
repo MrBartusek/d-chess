@@ -7,11 +7,11 @@ export class Pawn extends Piece {
 		super(color);
 	}
 
-	getType() {
+	get type() {
 		return PieceType.PAWN;
 	}
 
-	getImage(): string {
+	get image(): string {
 		return `${this.color}Pawn.png`;
 	}
 }

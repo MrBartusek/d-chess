@@ -7,11 +7,11 @@ export class Knight extends Piece {
 		super(color);
 	}
 
-	getType() {
+	get type() {
 		return PieceType.KNIGHT;
 	}
 
-	getImage(): string {
+	get image(): string {
 		return `${this.color}Knight.png`;
 	}
 }

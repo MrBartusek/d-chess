@@ -18,7 +18,7 @@ export class UIManager {
 			const currentPiece = this.getPieceElement(tile);
 
 			if (currentPiece && realPiece) {
-				const isRightPiece = currentPiece.classList.contains(realPiece.getType());
+				const isRightPiece = currentPiece.classList.contains(realPiece.type);
 				if (isRightPiece) continue;
 				currentPiece.remove();
 			}
@@ -26,8 +26,8 @@ export class UIManager {
 			if (currentPiece && !realPiece) {
 				currentPiece.remove();
 			} else if (realPiece) {
-				const image = `static/img/pieces/${realPiece.getImage()}`;
-				const pieceElement = this.createPiece(image, realPiece.getType());
+				const image = `static/img/pieces/${realPiece.image}`;
+				const pieceElement = this.createPiece(image, realPiece.type);
 				tile.appendChild(pieceElement);
 			}
 		}
