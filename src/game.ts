@@ -45,4 +45,19 @@ export class Game {
 	public getBoard() {
 		return this.board;
 	}
+
+	public makeMove(fromTile: number, toTile: number) {
+		const movedPiece = this.board.getByIndex(fromTile);
+		if (!movedPiece) throw new Error('Invalid fromTile - field is empty');
+
+		const targetedPiece = this.board.getByIndex(toTile);
+		if (targetedPiece) {
+			if (targetedPiece.color == movedPiece.color) {
+				return;
+			}
+		}
+
+		this.board.setByIndex(fromTile, null);
+		this.board.setByIndex(toTile, movedPiece);
+	}
 }

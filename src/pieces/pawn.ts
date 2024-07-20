@@ -3,8 +3,8 @@ import { Piece } from '../piece';
 import { PieceType } from '../piece-type';
 
 export class Pawn extends Piece {
-	constructor(protected color: Color) {
-		super(color);
+	constructor(protected _color: Color) {
+		super(_color);
 	}
 
 	get type() {
