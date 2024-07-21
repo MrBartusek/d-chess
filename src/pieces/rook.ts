@@ -3,6 +3,7 @@ import { Piece } from '../base/piece';
 import { PieceType } from '../types/piece-type';
 import { RegularMove } from '../moves/regular-move';
 import { Move } from '../base/moving-strategy';
+import { SlideDirection, SlidingMove } from '../moves/sliding-move';
 
 export class Rook extends Piece {
 	constructor(protected _color: Color) {
@@ -18,6 +19,11 @@ export class Rook extends Piece {
 	}
 
 	get moves(): Move[] {
-		return [];
+		return [
+			new SlidingMove(SlideDirection.TOP),
+			new SlidingMove(SlideDirection.RIGHT),
+			new SlidingMove(SlideDirection.BOTTOM),
+			new SlidingMove(SlideDirection.LEFT),
+		];
 	}
 }

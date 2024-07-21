@@ -1,5 +1,6 @@
 import { Move } from '../base/moving-strategy';
 import { Piece } from '../base/piece';
+import { SlideDirection, SlidingMove } from '../moves/sliding-move';
 import { Color } from '../types/color';
 import { PieceType } from '../types/piece-type';
 
@@ -17,6 +18,11 @@ export class Bishop extends Piece {
 	}
 
 	get moves(): Move[] {
-		return [];
+		return [
+			new SlidingMove(SlideDirection.TOP_LEFT),
+			new SlidingMove(SlideDirection.TOP_RIGHT),
+			new SlidingMove(SlideDirection.BOTTOM_LEFT),
+			new SlidingMove(SlideDirection.BOTTOM_RIGHT),
+		];
 	}
 }

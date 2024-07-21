@@ -105,6 +105,9 @@ export class UIManager {
 
 	private addHighlight(tileId: number) {
 		const tile = document.getElementById(`tile-${tileId}`)!;
+		if (!tile) {
+			throw new Error(`Invalid tile: ${tileId}`);
+		}
 		const highlight = document.createElement('div');
 		highlight.classList.add('highlighted');
 		tile.appendChild(highlight);

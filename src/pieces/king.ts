@@ -1,8 +1,8 @@
-import { Color } from '../types/color';
-import { Piece } from '../base/piece';
-import { PieceType } from '../types/piece-type';
 import { Move } from '../base/moving-strategy';
+import { Piece } from '../base/piece';
 import { RegularMove } from '../moves/regular-move';
+import { Color } from '../types/color';
+import { PieceType } from '../types/piece-type';
 
 export class King extends Piece {
 	constructor(protected _color: Color) {
