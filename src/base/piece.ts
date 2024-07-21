@@ -1,5 +1,5 @@
-import { Color } from './color';
-import { PieceType } from './piece-type';
+import { Color } from '../types/color';
+import { PieceType } from '../types/piece-type';
 
 export abstract class Piece {
 	constructor(protected _color: Color) {}

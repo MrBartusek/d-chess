@@ -1,5 +1,5 @@
 import { Board } from './board';
-import { Color } from './color';
+import { Color } from './types/color';
 import { Bishop } from './pieces/bishop';
 import { King } from './pieces/king';
 import { Knight } from './pieces/knight';

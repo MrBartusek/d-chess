@@ -1,4 +1,4 @@
-import { Piece } from './piece';
+import { Piece } from './base/piece';
 
 export class Board {
 	private state: (Piece | null)[] = new Array(63).fill(null);

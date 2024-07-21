@@ -1,6 +1,6 @@
-import { Color } from '../color';
-import { Piece } from '../piece';
-import { PieceType } from '../piece-type';
+import { Color } from '../types/color';
+import { Piece } from '../base/piece';
+import { PieceType } from '../types/piece-type';
 
 export class Pawn extends Piece {
 	constructor(protected _color: Color) {
