@@ -7,9 +7,15 @@ body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+.container {
+    display: flex;
+    margin: 40px auto;
+    flex-direction: column;
+    width: calc(100vh - 300px);
+    gap: 16px;
+}
+
 #board {
-    margin: 100px auto;
-    max-height: calc(100vh - 300px);
     aspect-ratio : 1 / 1;
     border: solid black 4px;
     box-shadow: 4px 4px 12px 0px rgba(66, 68, 90, 1);
@@ -89,4 +95,8 @@ body {
     -moz-user-select: none;
     -o-user-select: none;
     user-select: none;
+}
+
+.player-box {
+    
 }

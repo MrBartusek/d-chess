@@ -78,7 +78,7 @@ export class Game {
 			return;
 		}
 
-		const movedPiece = this.board.getByIndex(fromTile);
+		const movedPiece = this.board.getByIndex(fromTile)!;
 		const targetedPiece = this.board.getByIndex(toTile);
 
 		this.board.setByIndex(fromTile, null);
@@ -91,13 +91,21 @@ export class Game {
 		}
 
 		movedPiece!.onMove(fromTile, toTile);
-
+		this.currentTurn = this.currentTurn == Color.WHITE ? Color.BLACK : Color.WHITE;
 		console.log(`Completed move!  ${fromTile} -> ${toTile}`);
+	}
+
+	public getCurrentTurn() {
+		return this.currentTurn;
 	}
 
 	private computeMoves(fromTile: number) {
 		const movedPiece = this.board.getByIndex(fromTile);
 		if (!movedPiece) throw new Error('Invalid fromTile - field is empty');
+
+		if (movedPiece.color != this.currentTurn) {
+			return [];
+		}
 
 		return movedPiece.moves.flatMap((m) => m.computeMoves(this.board, fromTile));
 	}

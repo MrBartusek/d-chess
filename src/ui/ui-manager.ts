@@ -32,6 +32,8 @@ export class UIManager {
 			piece.removeEventListener('mousedown', this.onStartDragging);
 			piece.addEventListener('mousedown', this.onStartDragging);
 		}
+
+		document.getElementById('next-to-play')!.innerText = this.game.getCurrentTurn();
 	}
 
 	private onStartDragging(event: MouseEvent) {
