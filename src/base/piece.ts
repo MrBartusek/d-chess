@@ -1,5 +1,6 @@
 import { Color } from '../types/color';
 import { PieceType } from '../types/piece-type';
+import { Move } from './moving-strategy';
 
 export abstract class Piece {
 	constructor(protected _color: Color) {}
@@ -10,4 +11,9 @@ export abstract class Piece {
 
 	abstract get type(): PieceType;
 	abstract get image(): string;
+	abstract get moves(): Move[];
+
+	public onMove(oldTile: number, newTile: number) {
+		return;
+	}
 }

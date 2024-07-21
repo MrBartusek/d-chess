@@ -7,6 +7,7 @@ import { Pawn } from './pieces/pawn';
 import { Queen } from './pieces/queen';
 import { Rook } from './pieces/rook';
 import { SoundPlayer } from './sound-player';
+import { time } from 'console';
 
 export class Game {
 	private board: Board;
@@ -47,16 +48,41 @@ export class Game {
 		return this.board;
 	}
 
-	public makeMove(fromTile: number, toTile: number) {
+	public canMakeMove(fromTile: number, toTile: number) {
 		const movedPiece = this.board.getByIndex(fromTile);
 		if (!movedPiece) throw new Error('Invalid fromTile - field is empty');
-
 		const targetedPiece = this.board.getByIndex(toTile);
+
+		if (fromTile == toTile) {
+			return false;
+		}
+
 		if (targetedPiece) {
 			if (targetedPiece.color == movedPiece.color) {
-				return;
+				return false;
 			}
 		}
+
+		const allMoves = this.computeMoves(fromTile);
+		return allMoves.includes(toTile);
+	}
+
+	public listMoves(fromTile: number) {
+		const moves = this.computeMoves(fromTile);
+		return moves.filter((toTile) => this.canMakeMove(fromTile, toTile));
+	}
+
+	public makeMove(fromTile: number, toTile: number) {
+		if (!this.canMakeMove(fromTile, toTile)) {
+			console.warn(`Illegal move! ${fromTile} -> ${toTile}`);
+			return;
+		}
+
+		const movedPiece = this.board.getByIndex(fromTile);
+		const targetedPiece = this.board.getByIndex(toTile);
+
+		this.board.setByIndex(fromTile, null);
+		this.board.setByIndex(toTile, movedPiece);
 
 		if (targetedPiece) {
 			SoundPlayer.playCapture();
@@ -64,7 +90,15 @@ export class Game {
 			SoundPlayer.playMove();
 		}
 
-		this.board.setByIndex(fromTile, null);
-		this.board.setByIndex(toTile, movedPiece);
+		movedPiece!.onMove(fromTile, toTile);
+
+		console.log(`Completed move!  ${fromTile} -> ${toTile}`);
+	}
+
+	private computeMoves(fromTile: number) {
+		const movedPiece = this.board.getByIndex(fromTile);
+		if (!movedPiece) throw new Error('Invalid fromTile - field is empty');
+
+		return movedPiece.moves.flatMap((m) => m.computeMoves(this.board, fromTile));
 	}
 }

@@ -17,6 +17,7 @@ export class UIManager {
 
 		this.onMouseMove = this.onMouseMove.bind(this);
 		this.onMouseUp = this.onMouseUp.bind(this);
+		this.onStartDragging = this.onStartDragging.bind(this);
 	}
 
 	public start() {
@@ -28,7 +29,8 @@ export class UIManager {
 	private drawBoard(board: Board) {
 		const pieces = this.boardGenerator.drawBoard(board);
 		for (const piece of pieces) {
-			piece.addEventListener('mousedown', (e) => this.onStartDragging(e));
+			piece.removeEventListener('mousedown', this.onStartDragging);
+			piece.addEventListener('mousedown', this.onStartDragging);
 		}
 	}
 
@@ -38,6 +40,12 @@ export class UIManager {
 
 		this.dragStartX = event.clientX;
 		this.dragStartY = event.clientY;
+
+		const currentTileId = this.getTileFromDraggedPiece()!;
+		const possibleMoves = this.game.listMoves(currentTileId);
+		for (const move of possibleMoves) {
+			this.addHighlight(move);
+		}
 
 		document.addEventListener('mousemove', this.onMouseMove);
 		document.addEventListener('mouseup', this.onMouseUp);
@@ -55,9 +63,10 @@ export class UIManager {
 	private onMouseUp(event: MouseEvent) {
 		document.removeEventListener('mousemove', this.onMouseMove);
 		document.removeEventListener('mouseup', this.onMouseUp);
+		this.removeAllHighlights();
 
 		if (this.currentDraggedPiece) {
-			const currentTileId = Number(this.currentDraggedPiece.parentElement!.id.replace('tile-', ''));
+			const currentTileId = this.getTileFromDraggedPiece()!;
 			this.currentDraggedPiece.style.transform = '';
 			this.currentDraggedPiece.classList.remove('dragged');
 			this.currentDraggedPiece = null;
@@ -87,5 +96,21 @@ export class UIManager {
 		}
 
 		return null;
+	}
+
+	private getTileFromDraggedPiece() {
+		if (!this.currentDraggedPiece) return;
+		return Number(this.currentDraggedPiece.parentElement!.id.replace('tile-', ''));
+	}
+
+	private addHighlight(tileId: number) {
+		const tile = document.getElementById(`tile-${tileId}`)!;
+		const highlight = document.createElement('div');
+		highlight.classList.add('highlighted');
+		tile.appendChild(highlight);
+	}
+
+	private removeAllHighlights() {
+		Array.from(document.getElementsByClassName('highlighted')).forEach((e) => e.remove());
 	}
 }

@@ -1,5 +1,6 @@
-import { Color } from '../types/color';
+import { Move } from '../base/moving-strategy';
 import { Piece } from '../base/piece';
+import { Color } from '../types/color';
 import { PieceType } from '../types/piece-type';
 
 export class Bishop extends Piece {
@@ -13,5 +14,9 @@ export class Bishop extends Piece {
 
 	get image(): string {
 		return `${this.color}Bishop.png`;
+	}
+
+	get moves(): Move[] {
+		return [];
 	}
 }
