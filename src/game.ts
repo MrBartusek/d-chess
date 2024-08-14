@@ -58,6 +58,13 @@ export class Game {
 		return Object.assign({}, this.capturedPieces);
 	}
 
+	public calculateTotalMaterial(color: Color) {
+		const capturedPieces = this.getCapturedPieces()[color];
+		return capturedPieces
+			.map((p) => p.materialValue)
+			.reduce((accumulator, a) => accumulator + a, 0);
+	}
+
 	public canMakeMove(fromTile: number, toTile: number) {
 		const movedPiece = this.board.getByIndex(fromTile);
 		if (!movedPiece) throw new Error('Invalid fromTile - field is empty');

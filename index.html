@@ -7,10 +7,42 @@
   </head>
   <body>
     <div class="container">
-      <div class="info-box">
-        <span>Next to play: </span><b id="next-to-play">xxx</b>
+
+      <div class="player-box">
+        <img src="/static/img/profile.png" class="player-avatar">
+        <div class="player-info">
+          <span class="player-name">
+            <span>Black</span>
+            <span class="next-move" id="black-next-move">(next move)</span>
+          </span>
+          <div class="material-container">
+            <div class="material-pieces" id="black-material-pieces">
+              <img src="/static/img/pieces/whiteBishop.png" class="material-piece">
+              <img src="/static/img/pieces/whiteBishop.png" class="material-piece">
+            </div>
+            <span class="material-value" id="black-material-value">(+2)</span>
+          </div>
+        </div>
       </div>
+
       <div id="board"></div>
+
+      <div class="player-box">
+        <img src="/static/img/profile.png" class="player-avatar">
+        <div class="player-info">
+          <span class="player-name">
+            <span>White</span>
+            <span class="next-move" id="white-next-move">(next move)</span>
+          </span>
+          <div class="material-container">
+            <div class="material-pieces" id="white-material-pieces">
+              <img src="/static/img/pieces/whiteBishop.png" class="material-piece">
+              <img src="/static/img/pieces/whiteBishop.png" class="material-piece">
+            </div>
+            <span class="material-value" id="white-material-value">(+2)</span>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

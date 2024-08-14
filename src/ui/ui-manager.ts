@@ -1,11 +1,14 @@
 import { Board } from '../board';
 import { Game } from '../game';
+import { Color } from '../types/color';
 import { BoardGenerator } from './board-generator';
+import { PlayerGenerator } from './player-generator';
 
 export class UIManager {
 	private game: Game;
 
 	private boardGenerator: BoardGenerator;
+	private playerGenerator: PlayerGenerator;
 
 	private currentDraggedPiece: HTMLImageElement | null = null;
 	private dragStartX: number = 0;
@@ -14,6 +17,7 @@ export class UIManager {
 	constructor(game: Game) {
 		this.game = game;
 		this.boardGenerator = new BoardGenerator();
+		this.playerGenerator = new PlayerGenerator();
 
 		this.onMouseMove = this.onMouseMove.bind(this);
 		this.onMouseUp = this.onMouseUp.bind(this);
@@ -23,7 +27,12 @@ export class UIManager {
 	public start() {
 		const container = document.getElementById('board')!;
 		this.boardGenerator.generateBoard(container);
-		this.drawBoard(this.game.getBoard());
+		this.drawUi(this.game.getBoard());
+	}
+
+	private drawUi(board: Board) {
+		this.drawBoard(board);
+		this.playerGenerator.drawPlayers(this.game);
 	}
 
 	private drawBoard(board: Board) {
@@ -32,8 +41,6 @@ export class UIManager {
 			piece.removeEventListener('mousedown', this.onStartDragging);
 			piece.addEventListener('mousedown', this.onStartDragging);
 		}
-
-		document.getElementById('next-to-play')!.innerText = this.game.getCurrentTurn();
 	}
 
 	private onStartDragging(event: MouseEvent) {
@@ -78,7 +85,7 @@ export class UIManager {
 
 			const targetTileId = Number(targetElement.id.replace('tile-', ''));
 			this.game.makeMove(currentTileId, targetTileId);
-			this.drawBoard(this.game.getBoard());
+			this.drawUi(this.game.getBoard());
 		}
 	}
 

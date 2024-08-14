@@ -98,5 +98,38 @@ body {
 }
 
 .player-box {
-    
+    padding: 0 4px;
+    display: flex;
+    gap: 12px;
+}
+
+.player-avatar {
+    height: 48px;
+    border: solid black 1px;
+}
+
+.player-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+}
+
+.player-name {
+    font-weight: bold;
+}
+
+.material-piece {
+    height: 18px;
+}
+
+.material-container{
+    display: flex;
+    gap: 4px;
+    font-size: 0.8em;
+    align-items: center;
+}
+
+.next-move {
+    color: green;
 }
