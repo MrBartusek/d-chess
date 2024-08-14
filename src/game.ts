@@ -7,14 +7,20 @@ import { Pawn } from './pieces/pawn';
 import { Queen } from './pieces/queen';
 import { Rook } from './pieces/rook';
 import { SoundPlayer } from './sound-player';
-import { time } from 'console';
+import { Piece } from './base/piece';
 
 export class Game {
 	private board: Board;
 	private currentTurn = Color.WHITE;
 
+	private capturedPieces: { [key in Color]: Piece[] };
+
 	constructor() {
 		this.board = new Board();
+		this.capturedPieces = {
+			[Color.WHITE]: [],
+			[Color.BLACK]: [],
+		};
 	}
 
 	public setDefaultBoard() {
@@ -46,6 +52,10 @@ export class Game {
 
 	public getBoard() {
 		return this.board;
+	}
+
+	public getCapturedPieces() {
+		return Object.assign({}, this.capturedPieces);
 	}
 
 	public canMakeMove(fromTile: number, toTile: number) {
@@ -84,19 +94,25 @@ export class Game {
 		this.board.setByIndex(fromTile, null);
 		this.board.setByIndex(toTile, movedPiece);
 
-		if (targetedPiece) {
+		const captured = targetedPiece != null;
+		if (captured) {
 			SoundPlayer.playCapture();
+			this.capturedPieces[this.getCurrentTurn()].push(targetedPiece);
 		} else {
 			SoundPlayer.playMove();
 		}
 
 		movedPiece!.onMove(fromTile, toTile);
-		this.currentTurn = this.currentTurn == Color.WHITE ? Color.BLACK : Color.WHITE;
+		this.currentTurn = this.getNextTurn();
 		console.log(`Completed move!  ${fromTile} -> ${toTile}`);
 	}
 
 	public getCurrentTurn() {
 		return this.currentTurn;
+	}
+
+	public getNextTurn() {
+		return this.currentTurn == Color.WHITE ? Color.BLACK : Color.WHITE;
 	}
 
 	private computeMoves(fromTile: number) {
