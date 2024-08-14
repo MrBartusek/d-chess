@@ -18,6 +18,10 @@ export class Queen extends Piece {
 		return `${this.color}Queen.png`;
 	}
 
+	get materialValue(): number {
+		return 9;
+	}
+
 	get moves(): Move[] {
 		return [
 			new SlidingMove(SlideDirection.TOP_LEFT),

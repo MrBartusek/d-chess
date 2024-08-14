@@ -17,6 +17,10 @@ export class King extends Piece {
 		return `${this.color}King.png`;
 	}
 
+	get materialValue(): number {
+		return 0; // Invaluable
+	}
+
 	get moves(): Move[] {
 		return [
 			new RegularMove(-9),

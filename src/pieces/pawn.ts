@@ -36,6 +36,10 @@ export class Pawn extends Piece {
 		return moves;
 	}
 
+	get materialValue(): number {
+		return 1;
+	}
+
 	public onMove(oldTile: number, newTile: number): void {
 		this.moved = true;
 	}

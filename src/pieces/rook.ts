@@ -18,6 +18,10 @@ export class Rook extends Piece {
 		return `${this.color}Rook.png`;
 	}
 
+	get materialValue(): number {
+		return 5;
+	}
+
 	get moves(): Move[] {
 		return [
 			new SlidingMove(SlideDirection.TOP),

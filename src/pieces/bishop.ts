@@ -17,6 +17,10 @@ export class Bishop extends Piece {
 		return `${this.color}Bishop.png`;
 	}
 
+	get materialValue(): number {
+		return 3;
+	}
+
 	get moves(): Move[] {
 		return [
 			new SlidingMove(SlideDirection.TOP_LEFT),

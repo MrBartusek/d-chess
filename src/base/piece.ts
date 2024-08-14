@@ -11,6 +11,7 @@ export abstract class Piece {
 
 	abstract get type(): PieceType;
 	abstract get image(): string;
+	abstract get materialValue(): number;
 	abstract get moves(): Move[];
 
 	public onMove(oldTile: number, newTile: number) {

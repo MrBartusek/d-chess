@@ -17,6 +17,10 @@ export class Knight extends Piece {
 		return `${this.color}Knight.png`;
 	}
 
+	get materialValue(): number {
+		return 3;
+	}
+
 	get moves(): Move[] {
 		return [
 			new RegularMove(17), // Move up 2, right 1
