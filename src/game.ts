@@ -126,9 +126,9 @@ export class Game {
 		const movedPiece = this.board.getByIndex(fromTile);
 		if (!movedPiece) throw new Error('Invalid fromTile - field is empty');
 
-		if (movedPiece.color != this.currentTurn) {
-			return [];
-		}
+		// if (movedPiece.color != this.currentTurn) {
+		// 	return [];
+		// }
 
 		return movedPiece.moves.flatMap((m) => m.computeMoves(this.board, fromTile));
 	}

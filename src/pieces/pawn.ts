@@ -3,6 +3,7 @@ import { Piece } from '../base/piece';
 import { PieceType } from '../types/piece-type';
 import { Move } from '../base/moving-strategy';
 import { RegularMove } from '../moves/regular-move';
+import { PawnDoubleMove } from '../moves/pawn-double-move';
 
 export class Pawn extends Piece {
 	private moved = false;
@@ -22,14 +23,24 @@ export class Pawn extends Piece {
 	get moves(): Move[] {
 		const moves = [];
 		if (this._color == Color.WHITE) {
-			moves.push(new RegularMove(-8));
+			moves.push(new RegularMove(-8, { canCapture: false }));
+
+			// Diagonal Captures
+			moves.push(new RegularMove(-7, { onlyCapture: true }));
+			moves.push(new RegularMove(-9, { onlyCapture: true }));
+
 			if (!this.moved) {
-				moves.push(new RegularMove(-16));
+				moves.push(new PawnDoubleMove(-16));
 			}
 		} else {
-			moves.push(new RegularMove(8));
+			moves.push(new RegularMove(8, { canCapture: false }));
+
+			// Diagonal Captures
+			moves.push(new RegularMove(7, { onlyCapture: true }));
+			moves.push(new RegularMove(9, { onlyCapture: true }));
+
 			if (!this.moved) {
-				moves.push(new RegularMove(16));
+				moves.push(new PawnDoubleMove(16));
 			}
 		}
 
