@@ -8,6 +8,7 @@ import { Queen } from './pieces/queen';
 import { Rook } from './pieces/rook';
 import { SoundPlayer } from './sound-player';
 import { Piece } from './base/piece';
+import { PieceType } from './types/piece-type';
 
 export class Game {
 	private board: Board;
@@ -109,7 +110,14 @@ export class Game {
 			SoundPlayer.playMove();
 		}
 
-		movedPiece!.onMove(fromTile, toTile);
+		movedPiece.onMove(fromTile, toTile);
+
+		console.log(movedPiece.type == PieceType.PAWN, this.isLastRow(toTile, movedPiece.color));
+
+		if (movedPiece.type == PieceType.PAWN && this.isLastRow(toTile, movedPiece.color)) {
+			this.promotePawn(toTile);
+		}
+
 		this.currentTurn = this.getNextTurn();
 		console.log(`Completed move!  ${fromTile} -> ${toTile}`);
 	}
@@ -131,5 +139,24 @@ export class Game {
 		// }
 
 		return movedPiece.moves.flatMap((m) => m.computeMoves(this.board, fromTile));
+	}
+
+	private isLastRow(index: number, color: Color) {
+		const row = Math.floor(index / 8);
+		console.log(row);
+		if (color == Color.WHITE) {
+			return row == 0;
+		} else {
+			return row == 8;
+		}
+	}
+
+	private promotePawn(index: number) {
+		const piece = this.board.getByIndex(index);
+		if (piece?.type != PieceType.PAWN) {
+			throw new Error('Cannot promote non-pawn piece');
+		}
+
+		this.board.setByIndex(index, new Queen(piece.color));
 	}
 }
