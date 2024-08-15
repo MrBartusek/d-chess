@@ -97,6 +97,10 @@ body {
     user-select: none;
 }
 
+.highlighted-capture {
+    background-image: url("img/highlighted-check.png") !important;
+}
+
 .player-box {
     padding: 0 4px;
     display: flex;

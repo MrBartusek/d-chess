@@ -119,6 +119,10 @@ export class UIManager {
 		}
 		const highlight = document.createElement('div');
 		highlight.classList.add('highlighted');
+
+		if (tile.getElementsByClassName('pawn').length > 0) {
+			highlight.classList.add('highlighted-capture');
+		}
 		tile.appendChild(highlight);
 	}
 
