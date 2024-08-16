@@ -26,7 +26,7 @@ After installing the dependencies, you can start the build in watch mode:
 npm run watch
 ```
 
-This will start a local server. You can then open `public/index.html` file directly or use
+This will start a build process. You can then open `public/index.html` file directly or use
 extension such as [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) to
 launch development server.
 
