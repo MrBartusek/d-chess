@@ -95,6 +95,10 @@ export class Game {
 			return false;
 		}
 
+		if (movedPiece.color != this.currentTurn) {
+			return false;
+		}
+
 		if (targetedPiece) {
 			if (targetedPiece.color == movedPiece.color) {
 				return false;
@@ -162,10 +166,6 @@ export class Game {
 		const movedPiece = this.board.getByIndex(fromTile);
 		if (!movedPiece) throw new Error('Invalid fromTile - field is empty');
 
-		if (movedPiece.color != this.currentTurn) {
-			return [];
-		}
-
 		return movedPiece.moves.flatMap((m) => m.computeMoves(this.board, fromTile));
 	}
 
@@ -196,7 +196,6 @@ export class Game {
 			if (piece.color == movedPiece.color) continue;
 			const moves = this.computeMoves(square);
 			if (moves.includes(toTile)) {
-				console.log('endgame move blocked', { toTile, movedPiece, square });
 				return true;
 			}
 		}
