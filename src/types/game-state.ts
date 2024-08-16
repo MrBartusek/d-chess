@@ -1,0 +1,6 @@
+export enum GameState {
+	STARTED = 'STARTED',
+	STALEMATE = 'STALEMATE',
+	BLACK_WIN = 'BLACK_WIN',
+	WHITE_WIN = 'WHITE_WIN',
+}

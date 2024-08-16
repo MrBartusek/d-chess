@@ -21,8 +21,8 @@ export class King extends Piece {
 		return 0; // Invaluable
 	}
 
-	get canCapture(): boolean {
-		return false;
+	get isKing(): boolean {
+		return true;
 	}
 
 	get moves(): Move[] {

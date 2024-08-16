@@ -12,7 +12,7 @@ export abstract class Piece {
 	abstract get type(): PieceType;
 	abstract get image(): string;
 	abstract get materialValue(): number;
-	abstract get canCapture(): boolean;
+	abstract get isKing(): boolean;
 	abstract get moves(): Move[];
 
 	public onMove(oldTile: number, newTile: number) {

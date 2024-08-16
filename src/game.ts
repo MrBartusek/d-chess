@@ -9,10 +9,12 @@ import { Rook } from './pieces/rook';
 import { SoundPlayer } from './sound-player';
 import { Piece } from './base/piece';
 import { PieceType } from './types/piece-type';
+import { GameState } from './types/game-state';
 
 export class Game {
 	private board: Board;
 	private currentTurn = Color.WHITE;
+	private state = GameState.STARTED;
 
 	private capturedPieces: { [key in Color]: Piece[] };
 
@@ -55,6 +57,10 @@ export class Game {
 		return this.board;
 	}
 
+	public getState() {
+		return this.state;
+	}
+
 	public getCapturedPieces() {
 		return Object.assign({}, this.capturedPieces);
 	}
@@ -67,6 +73,8 @@ export class Game {
 	}
 
 	public canMakeMove(fromTile: number, toTile: number) {
+		if (this.state != GameState.STARTED) return false;
+
 		const movedPiece = this.board.getByIndex(fromTile);
 		if (!movedPiece) throw new Error('Invalid fromTile - field is empty');
 		const targetedPiece = this.board.getByIndex(toTile);
@@ -77,9 +85,6 @@ export class Game {
 
 		if (targetedPiece) {
 			if (targetedPiece.color == movedPiece.color) {
-				return false;
-			}
-			if (!targetedPiece.canCapture) {
 				return false;
 			}
 		}
@@ -102,6 +107,11 @@ export class Game {
 		const movedPiece = this.board.getByIndex(fromTile)!;
 		const targetedPiece = this.board.getByIndex(toTile);
 
+		if (targetedPiece && targetedPiece.isKing) {
+			console.warn(`Cant capture this piece! ${fromTile} -> ${toTile}`);
+			return;
+		}
+
 		this.board.setByIndex(fromTile, null);
 		this.board.setByIndex(toTile, movedPiece);
 
@@ -115,13 +125,12 @@ export class Game {
 
 		movedPiece.onMove(fromTile, toTile);
 
-		console.log(movedPiece.type == PieceType.PAWN, this.isLastRow(toTile, movedPiece.color));
-
 		if (movedPiece.type == PieceType.PAWN && this.isLastRow(toTile, movedPiece.color)) {
 			this.promotePawn(toTile);
 		}
 
 		this.currentTurn = this.getNextTurn();
+		this.updateGameState();
 		console.log(`Completed move!  ${fromTile} -> ${toTile}`);
 	}
 
@@ -146,7 +155,6 @@ export class Game {
 
 	private isLastRow(index: number, color: Color) {
 		const row = Math.floor(index / 8);
-		console.log(row);
 		if (color == Color.WHITE) {
 			return row == 0;
 		} else {
@@ -161,5 +169,30 @@ export class Game {
 		}
 
 		this.board.setByIndex(index, new Queen(piece.color));
+	}
+
+	private updateGameState() {
+		const isChecked = {
+			[Color.WHITE]: false,
+			[Color.BLACK]: false,
+		};
+
+		for (let square = 0; square < 64; square++) {
+			const piece = this.board.getByIndex(square);
+			if (!piece) continue;
+			const moves = this.listMoves(square);
+			for (const move of moves) {
+				const targetPiece = this.board.getByIndex(move);
+				if (targetPiece && targetPiece.isKing) {
+					isChecked[targetPiece.color] = true;
+				}
+			}
+		}
+
+		if (isChecked[Color.WHITE] && this.currentTurn == Color.BLACK) {
+			this.state = GameState.BLACK_WIN;
+		} else if (isChecked[Color.BLACK] && this.currentTurn == Color.WHITE) {
+			this.state = GameState.WHITE_WIN;
+		}
 	}
 }

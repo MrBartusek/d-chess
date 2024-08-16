@@ -21,8 +21,8 @@ export class Knight extends Piece {
 		return 3;
 	}
 
-	get canCapture(): boolean {
-		return true;
+	get isKing(): boolean {
+		return false;
 	}
 
 	get moves(): Move[] {

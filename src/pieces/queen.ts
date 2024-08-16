@@ -22,8 +22,8 @@ export class Queen extends Piece {
 		return 9;
 	}
 
-	get canCapture(): boolean {
-		return true;
+	get isKing(): boolean {
+		return false;
 	}
 
 	get moves(): Move[] {

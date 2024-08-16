@@ -22,8 +22,8 @@ export class Rook extends Piece {
 		return 5;
 	}
 
-	get canCapture(): boolean {
-		return true;
+	get isKing(): boolean {
+		return false;
 	}
 
 	get moves(): Move[] {

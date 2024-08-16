@@ -20,8 +20,8 @@ export class Pawn extends Piece {
 		return `${this.color}Pawn.png`;
 	}
 
-	get canCapture(): boolean {
-		return true;
+	get isKing(): boolean {
+		return false;
 	}
 
 	get moves(): Move[] {

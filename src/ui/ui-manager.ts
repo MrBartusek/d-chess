@@ -86,6 +86,7 @@ export class UIManager {
 			const targetTileId = Number(targetElement.id.replace('tile-', ''));
 			this.game.makeMove(currentTileId, targetTileId);
 			this.drawUi(this.game.getBoard());
+			console.log({ state: this.game.getState() });
 		}
 	}
 
