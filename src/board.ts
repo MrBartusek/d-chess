@@ -36,4 +36,8 @@ export class Board {
 		if (board.length !== 63) throw new Error('Board must have exactly 63 pieces.');
 		this.state = board;
 	}
+
+	public reset() {
+		this.state = new Array(63).fill(null);
+	}
 }

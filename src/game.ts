@@ -59,6 +59,12 @@ export class Game {
 		this.board.setByPosition(6, 7, new King(Color.WHITE));
 	}
 
+	public restart() {
+		this.board.reset();
+		this.currentTurn = Color.WHITE;
+		this.state = GameState.STARTED;
+	}
+
 	public getBoard() {
 		return this.board;
 	}
@@ -140,7 +146,7 @@ export class Game {
 		}
 
 		this.currentTurn = this.getNextTurn();
-		this.checkWin();
+		this.updateGameState();
 		console.log(`Completed move!  ${fromTile} -> ${toTile}`);
 	}
 
@@ -197,7 +203,7 @@ export class Game {
 		return false;
 	}
 
-	private checkWin() {
+	private updateGameState() {
 		const isChecked = {
 			[Color.WHITE]: false,
 			[Color.BLACK]: false,

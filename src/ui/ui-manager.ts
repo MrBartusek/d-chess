@@ -1,6 +1,6 @@
 import { Board } from '../board';
 import { Game } from '../game';
-import { Color } from '../types/color';
+import { GameState } from '../types/game-state';
 import { BoardGenerator } from './board-generator';
 import { PlayerGenerator } from './player-generator';
 
@@ -86,8 +86,29 @@ export class UIManager {
 			const targetTileId = Number(targetElement.id.replace('tile-', ''));
 			this.game.makeMove(currentTileId, targetTileId);
 			this.drawUi(this.game.getBoard());
-			console.log({ state: this.game.getState() });
+			setTimeout(() => {
+				this.checkGameState();
+			}, 100);
 		}
+	}
+
+	private checkGameState() {
+		const state = this.game.getState();
+
+		if (state == GameState.STARTED) {
+			return;
+		}
+		if (state == GameState.BLACK_WIN) {
+			alert('Black won!');
+		} else if (state == GameState.WHITE_WIN) {
+			alert('White won!');
+		} else if (state == GameState.STALEMATE) {
+			alert('Stalemate!');
+		}
+
+		this.game.restart();
+		this.game.setDefaultBoard();
+		this.drawUi(this.game.getBoard());
 	}
 
 	private getTileFromPoint(x: number, y: number) {
