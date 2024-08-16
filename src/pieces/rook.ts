@@ -22,6 +22,10 @@ export class Rook extends Piece {
 		return 5;
 	}
 
+	get canCapture(): boolean {
+		return true;
+	}
+
 	get moves(): Move[] {
 		return [
 			new SlidingMove(SlideDirection.TOP),

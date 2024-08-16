@@ -21,6 +21,10 @@ export class Bishop extends Piece {
 		return 3;
 	}
 
+	get canCapture(): boolean {
+		return true;
+	}
+
 	get moves(): Move[] {
 		return [
 			new SlidingMove(SlideDirection.TOP_LEFT),

@@ -21,6 +21,10 @@ export class King extends Piece {
 		return 0; // Invaluable
 	}
 
+	get canCapture(): boolean {
+		return false;
+	}
+
 	get moves(): Move[] {
 		return [
 			new RegularMove(-9),

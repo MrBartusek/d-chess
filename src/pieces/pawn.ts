@@ -20,6 +20,10 @@ export class Pawn extends Piece {
 		return `${this.color}Pawn.png`;
 	}
 
+	get canCapture(): boolean {
+		return true;
+	}
+
 	get moves(): Move[] {
 		const moves = [];
 		if (this._color == Color.WHITE) {

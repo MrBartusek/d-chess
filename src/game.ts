@@ -79,6 +79,9 @@ export class Game {
 			if (targetedPiece.color == movedPiece.color) {
 				return false;
 			}
+			if (!targetedPiece.canCapture) {
+				return false;
+			}
 		}
 
 		const allMoves = this.computeMoves(fromTile);

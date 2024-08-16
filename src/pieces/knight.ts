@@ -21,6 +21,10 @@ export class Knight extends Piece {
 		return 3;
 	}
 
+	get canCapture(): boolean {
+		return true;
+	}
+
 	get moves(): Move[] {
 		return [
 			new RegularMove(17), // Move up 2, right 1
