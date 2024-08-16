@@ -4,9 +4,11 @@ import { PieceType } from '../types/piece-type';
 import { Move } from '../base/moving-strategy';
 import { RegularMove } from '../moves/regular-move';
 import { PawnDoubleMove } from '../moves/pawn-double-move';
+import { EnPassant } from '../moves/en-passant';
 
 export class Pawn extends Piece {
 	private moved = false;
+	private _canEnPassant = false;
 
 	constructor(protected _color: Color) {
 		super(_color);
@@ -24,6 +26,10 @@ export class Pawn extends Piece {
 		return false;
 	}
 
+	get canEnPassant() {
+		return this._canEnPassant;
+	}
+
 	get moves(): Move[] {
 		const moves = [];
 		if (this._color == Color.WHITE) {
@@ -36,6 +42,9 @@ export class Pawn extends Piece {
 			if (!this.moved) {
 				moves.push(new PawnDoubleMove(-16));
 			}
+
+			moves.push(new EnPassant(-7));
+			moves.push(new EnPassant(-9));
 		} else {
 			moves.push(new RegularMove(8, { canCapture: false }));
 
@@ -46,6 +55,9 @@ export class Pawn extends Piece {
 			if (!this.moved) {
 				moves.push(new PawnDoubleMove(16));
 			}
+
+			moves.push(new EnPassant(7));
+			moves.push(new EnPassant(9));
 		}
 
 		return moves;
@@ -56,6 +68,14 @@ export class Pawn extends Piece {
 	}
 
 	public onMove(oldTile: number, newTile: number): void {
-		this.moved = true;
+		if (!this.moved) {
+			this.moved = true;
+			const isDoubleMove = Math.abs(oldTile - newTile) == 16;
+			if (isDoubleMove) {
+				this._canEnPassant = true;
+				return;
+			}
+		}
+		this._canEnPassant = false;
 	}
 }

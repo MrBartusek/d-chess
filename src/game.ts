@@ -125,11 +125,25 @@ export class Game {
 		}
 
 		const movedPiece = this.board.getByIndex(fromTile)!;
-		const targetedPiece = this.board.getByIndex(toTile);
+		let targetedPiece = this.board.getByIndex(toTile);
 
 		if (targetedPiece && targetedPiece.isKing) {
 			console.warn(`Cant capture this piece! ${fromTile} -> ${toTile}`);
 			return;
+		}
+
+		// Special hard-coded logic for only one chess move that
+		// captures on other field than targeted: En Passant
+		if (movedPiece.type == PieceType.PAWN) {
+			const isDiagonal = Math.abs(fromTile - toTile) % 8 > 0;
+			const isEnPassant = isDiagonal && targetedPiece == null;
+			if (isEnPassant) {
+				const diff = movedPiece.color == Color.WHITE ? 8 : -8;
+				const targetedPawnPosition = toTile + diff;
+				targetedPiece = this.board.getByIndex(targetedPawnPosition);
+				this.board.setByIndex(targetedPawnPosition, null);
+				console.log('google en passant', { fromTile, toTile, targetedPawnPosition });
+			}
 		}
 
 		this.board.setByIndex(fromTile, null);
@@ -138,7 +152,7 @@ export class Game {
 		const captured = targetedPiece != null;
 		if (captured) {
 			SoundPlayer.playCapture();
-			this.capturedPieces[this.getCurrentTurn()].push(targetedPiece);
+			this.capturedPieces[this.getCurrentTurn()].push(targetedPiece!);
 		} else {
 			SoundPlayer.playMove();
 		}
