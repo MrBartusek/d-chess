@@ -1,9 +1,8 @@
-import { Color } from '../types/color';
-import { Piece } from '../base/piece';
-import { PieceType } from '../types/piece-type';
 import { Move } from '../base/moving-strategy';
-import { RegularMove } from '../moves/regular-move';
+import { Piece } from '../base/piece';
 import { SlideDirection, SlidingMove } from '../moves/sliding-move';
+import { Color } from '../types/color';
+import { PieceType } from '../types/piece-type';
 
 export class Queen extends Piece {
 	constructor(protected _color: Color) {
