@@ -1,13 +1,9 @@
 name: Deploy
 
-defaults:
-  run:
-    working-directory: example
-
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:
