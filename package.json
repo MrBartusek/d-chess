@@ -6,9 +6,9 @@
   "scripts": {
     "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
     "test": "jest",
-    "build": "esbuild src/browser.ts --bundle --minify --sourcemap=external --outfile=dist/esbuild/main.js",
-    "build:dev": "esbuild src/main.ts --bundle --outfile=dist/esbuild/main.js",
-    "watch": "esbuild src/main.ts --bundle --watch --outfile=dist/esbuild/main.js"
+    "build": "esbuild src/main.ts --bundle --minify --sourcemap=external --outfile=public/dist/main.js",
+    "build:dev": "esbuild src/main.ts --bundle --outfile=public/dist/main.js",
+    "watch": "esbuild src/main.ts --bundle --watch --outfile=public/dist/main.js"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
