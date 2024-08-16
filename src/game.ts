@@ -53,6 +53,12 @@ export class Game {
 		}
 	}
 
+	public setStalemateTestBoard() {
+		this.board.setByPosition(0, 0, new King(Color.BLACK));
+		this.board.setByPosition(5, 1, new Queen(Color.BLACK));
+		this.board.setByPosition(6, 7, new King(Color.WHITE));
+	}
+
 	public getBoard() {
 		return this.board;
 	}
@@ -87,6 +93,10 @@ export class Game {
 			if (targetedPiece.color == movedPiece.color) {
 				return false;
 			}
+		}
+
+		if (this.isEndgameMove(movedPiece, toTile)) {
+			return false;
 		}
 
 		const allMoves = this.computeMoves(fromTile);
@@ -130,7 +140,7 @@ export class Game {
 		}
 
 		this.currentTurn = this.getNextTurn();
-		this.updateGameState();
+		this.checkWin();
 		console.log(`Completed move!  ${fromTile} -> ${toTile}`);
 	}
 
@@ -171,8 +181,29 @@ export class Game {
 		this.board.setByIndex(index, new Queen(piece.color));
 	}
 
-	private updateGameState() {
+	private isEndgameMove(movedPiece: Piece, toTile: number) {
+		if (!movedPiece.isKing) return false;
+		for (let square = 0; square < 64; square++) {
+			if (toTile == square) continue;
+			const piece = this.board.getByIndex(square);
+			if (!piece) continue;
+			if (piece.color == movedPiece.color) continue;
+			const moves = this.computeMoves(square);
+			if (moves.includes(toTile)) {
+				console.log('endgame move blocked', { toTile, movedPiece, square });
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private checkWin() {
 		const isChecked = {
+			[Color.WHITE]: false,
+			[Color.BLACK]: false,
+		};
+
+		const hasMoves = {
 			[Color.WHITE]: false,
 			[Color.BLACK]: false,
 		};
@@ -183,16 +214,26 @@ export class Game {
 			const moves = this.listMoves(square);
 			for (const move of moves) {
 				const targetPiece = this.board.getByIndex(move);
-				if (targetPiece && targetPiece.isKing) {
+				hasMoves[piece.color] = true;
+				if (!targetPiece) continue;
+				if (targetPiece.isKing) {
 					isChecked[targetPiece.color] = true;
 				}
 			}
 		}
 
-		if (isChecked[Color.WHITE] && this.currentTurn == Color.BLACK) {
-			this.state = GameState.BLACK_WIN;
-		} else if (isChecked[Color.BLACK] && this.currentTurn == Color.WHITE) {
-			this.state = GameState.WHITE_WIN;
+		if (this.currentTurn == Color.BLACK) {
+			if (isChecked[Color.WHITE]) {
+				this.state = GameState.BLACK_WIN;
+			} else if (!hasMoves[Color.BLACK]) {
+				this.state = GameState.STALEMATE;
+			}
+		} else if (this.currentTurn == Color.WHITE) {
+			if (isChecked[Color.BLACK]) {
+				this.state = GameState.WHITE_WIN;
+			} else if (!hasMoves[Color.WHITE]) {
+				this.state = GameState.STALEMATE;
+			}
 		}
 	}
 }
